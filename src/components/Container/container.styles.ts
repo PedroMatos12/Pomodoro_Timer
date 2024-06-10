@@ -9,7 +9,7 @@ export const ContainerStyles = styled.div`
   border-radius: 8px;
   padding: 2.5rem 4rem;
 
-  @media (min-width: 300px) and (max-width: 780px) {
+  @media (max-width: 780px) {
     width: 90vw;
     padding: 1rem;
     overflow: auto;

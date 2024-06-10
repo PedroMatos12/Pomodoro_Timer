@@ -17,7 +17,6 @@ export const CounterStyles = styled.div`
     width: 4rem;
     height: 12.375rem;
     font-size: 10rem;
-    margin: 0 auto;
     color: ${(props) => props.theme.green2};
   }
 

@@ -8,10 +8,6 @@ export const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
     }
 
-    /* :focus {
-        border: 1px solid ${(props) => props.theme.green1};
-    } */
-
     body {
         background: ${(props) => props.theme.primary};
         display: flex;

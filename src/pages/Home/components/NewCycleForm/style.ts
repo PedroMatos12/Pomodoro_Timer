@@ -23,7 +23,8 @@ export const FormHeaderStyles = styled.div`
   }
 
   @media (max-width: 780px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    justify-content: flex-start;
   }
 `
 const BaseInput = styled.input`
@@ -38,7 +39,8 @@ const BaseInput = styled.input`
   }
 
   @media (max-width: 780px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    max-width: 3rem;
   }
 `
 
