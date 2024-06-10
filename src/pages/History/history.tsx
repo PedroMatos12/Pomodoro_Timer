@@ -7,8 +7,12 @@ import {
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
 import { CyclesProps } from '../Home/home'
+import { useContext } from 'react'
+import { CyclesContext } from '../../contexts/CyclesContexts'
 
 export function History() {
+  const { cycles } = useContext(CyclesContext)
+
   return (
     <HistoryStyles>
       <h1>Meu Histórico</h1>
@@ -25,9 +29,7 @@ export function History() {
           </thead>
 
           <tbody>
-            {JSON.parse(
-              localStorage.getItem('@ignite-timer:historyList-1.0.0'),
-            ).map((task: CyclesProps) => {
+            {cycles.map((task: CyclesProps) => {
               return (
                 <tr key={task.id}>
                   <td>{task.task}</td>

@@ -1,7 +1,7 @@
 import {
   ReactNode,
   createContext,
-  // useEffect,
+  useEffect,
   useReducer,
   useState,
 } from 'react'
@@ -12,6 +12,7 @@ import {
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
 } from '../reducers/cycles/actions'
+import { differenceInSeconds } from 'date-fns'
 
 interface CycleFormDataProps {
   task: string
@@ -38,21 +39,45 @@ export const CyclesContext = createContext({} as CyclesContextProps)
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  const [cyclesState, dispatch] = useReducer(CyclesReduce, {
-    cycles: [],
-    activeCycleId: null,
-  }) /* o primeiro parâmetro de um reducer é uma funcão, e o segundo o valor inicial. Essa função sempre recebe dois parâmetros. o primeiro é o state, que é o valor atual/inicial da váriavel (que no caso é a cycles) e a action, que indica uma alteração que o usuário está tentando fazer no estado. */
+  const [cyclesState, dispatch] = useReducer(
+    CyclesReduce,
+    {
+      cycles: [],
+      activeCycleId: null,
+    },
+    (initialState) => {
+      const oldStorage = localStorage.getItem('@ignite-timer:historyList-1.0.0')
 
-  const [secondsPassedOfThisCycle, setSecondsPassedOfThisCycle] = useState(0)
+      if (oldStorage) {
+        return JSON.parse(oldStorage)
+      }
+
+      return initialState
+    },
+  ) /* o primeiro parâmetro de um reducer é uma funcão, o segundo o valor inicial e o terceiro um valor recebe uma função, usada para pegar os dados iniciais do reducer de algum outro lugar - no caso do localStorage. Essa função sempre recebe dois parâmetros. o primeiro é o state, que é o valor atual/inicial da váriavel (que no caso é a cycles) e a action, que indica uma alteração que o usuário está tentando fazer no estado. */
 
   const { cycles, activeCycleId } = cyclesState
   const activeCycle = cycles.find(({ id }) => id === activeCycleId)
 
-  const storageLocal = localStorage.getItem('@ignite-timer:historyList-1.0.0')
+  const [secondsPassedOfThisCycle, setSecondsPassedOfThisCycle] = useState(
+    () => {
+      if (activeCycle) {
+        return differenceInSeconds(
+          new Date(),
+          new Date(activeCycle.startedDate),
+        )
+      }
 
-  if (storageLocal === null) {
-    localStorage.setItem('@ignite-timer:historyList-1.0.0', JSON.stringify([]))
-  }
+      return 0
+    },
+  )
+
+  useEffect(() => {
+    localStorage.setItem(
+      '@ignite-timer:historyList-1.0.0',
+      JSON.stringify(cyclesState),
+    )
+  }, [cyclesState])
 
   function createNewCycle(data: CycleFormDataProps) {
     const newCycle: CyclesProps = {

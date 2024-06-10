@@ -7,21 +7,12 @@ interface CyclesStateProps {
   activeCycleId: string | null
 }
 
-function setNewStorage(draft: CyclesStateProps, currentCycleIndex: number) {
-  const newStorage = Array.from(
-    JSON.parse(localStorage.getItem('@ignite-timer:historyList-1.0.0')),
-  )
-
-  const findIndexToRemove = newStorage.findIndex(
-    ({ id }) => id === draft.activeCycleId,
-  )
-
-  newStorage.splice(findIndexToRemove, 1)
-
-  newStorage.push(draft.cycles[currentCycleIndex])
-
-  return newStorage
-}
+// interface ActionProps {
+//   type: string
+//   payload?: {
+//     newCycle: CyclesProps
+//   }
+// }
 
 export function CyclesReduce(state: CyclesStateProps, action: any) {
   switch (action.type) {
@@ -29,15 +20,6 @@ export function CyclesReduce(state: CyclesStateProps, action: any) {
       return produce(state, (draft) => {
         draft.cycles.push(action.payload.newCycle)
         draft.activeCycleId = action.payload.newCycle.id
-
-        const oldStorage = Array.from(
-          JSON.parse(localStorage.getItem('@ignite-timer:historyList-1.0.0')),
-        )
-
-        localStorage.setItem(
-          '@ignite-timer:historyList-1.0.0',
-          JSON.stringify([...oldStorage, action.payload.newCycle]),
-        )
       })
       break
 
@@ -51,11 +33,6 @@ export function CyclesReduce(state: CyclesStateProps, action: any) {
       return produce(state, (draft) => {
         draft.cycles[currentCycleIndex].isInterrupted = 'Interrompida'
         draft.cycles[currentCycleIndex].interruptedDate = new Date()
-
-        localStorage.setItem(
-          '@ignite-timer:historyList-1.0.0',
-          JSON.stringify([...setNewStorage(draft, currentCycleIndex)]),
-        )
 
         draft.activeCycleId = null
       })
@@ -73,11 +50,6 @@ export function CyclesReduce(state: CyclesStateProps, action: any) {
 
       return produce(state, (draft) => {
         draft.cycles[currentCycleIndex].isConcluded = 'Concluída'
-
-        localStorage.setItem(
-          '@ignite-timer:historyList-1.0.0',
-          JSON.stringify([...setNewStorage(draft, currentCycleIndex)]),
-        )
 
         draft.activeCycleId = null
       })
