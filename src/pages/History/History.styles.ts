@@ -7,14 +7,27 @@ export const HistoryStyles = styled.main`
 
   width: 100%;
   margin-top: 7rem;
-  padding: 1rem;
 
   color: ${(props) => props.theme.gray1};
 
   text-align: left;
 
-  h1 {
-    font-size: 1.5rem;
+  .historyHeader {
+    justify-content: space-between;
+    padding: 0 1.5rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .trashIcon {
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        color: ${(props) => props.theme.red1};
+      }
+    }
   }
 `
 export const HistoryTableStyles = styled.div`
@@ -50,6 +63,11 @@ export const HistoryTableStyles = styled.div`
         border-top-right-radius: 8px;
         padding-right: 1.5rem;
       }
+    }
+
+    .isHistoryEmpty {
+      background-color: ${(props) => props.theme.gray6};
+      height: 400px;
     }
 
     td {

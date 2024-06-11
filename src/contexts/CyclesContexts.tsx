@@ -9,6 +9,7 @@ import { CyclesProps } from '../pages/Home/home'
 import { CyclesReduce } from '../reducers/cycles/reducer'
 import {
   addNewCycleAction,
+  clearHistoryAction,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
 } from '../reducers/cycles/actions'
@@ -28,6 +29,7 @@ interface CyclesContextProps {
   markCurrentCycleAsFinished: () => void
   createNewCycle: (data: CycleFormDataProps) => void
   interruptCurrentCycle: () => void
+  clearHistory: () => void
 }
 
 interface CyclesContextProviderProps {
@@ -99,6 +101,10 @@ export function CyclesContextProvider({
     dispatch(markCurrentCycleAsFinishedAction())
   }
 
+  function clearHistory() {
+    dispatch(clearHistoryAction())
+  }
+
   return (
     <CyclesContext.Provider
       value={{
@@ -110,6 +116,7 @@ export function CyclesContextProvider({
         markCurrentCycleAsFinished,
         createNewCycle,
         interruptCurrentCycle,
+        clearHistory,
       }}
     >
       {children}

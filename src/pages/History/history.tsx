@@ -9,13 +9,19 @@ import { ptBR } from 'date-fns/locale/pt-BR'
 import { CyclesProps } from '../Home/home'
 import { useContext } from 'react'
 import { CyclesContext } from '../../contexts/CyclesContexts'
+import { Trash } from '@phosphor-icons/react'
 
 export function History() {
-  const { cycles } = useContext(CyclesContext)
+  const { cycles, clearHistory } = useContext(CyclesContext)
 
   return (
     <HistoryStyles>
-      <h1>Meu Histórico</h1>
+      <div className="historyHeader flexReset">
+        <h1>Meu Histórico</h1>
+        <span className="trashIcon" onClick={clearHistory}>
+          <Trash size={24} />
+        </span>
+      </div>
 
       <HistoryTableStyles>
         <table>
@@ -29,33 +35,46 @@ export function History() {
           </thead>
 
           <tbody>
-            {cycles.map((task: CyclesProps) => {
-              return (
-                <tr key={task.id}>
-                  <td>{task.task}</td>
-                  <td>{`${task.timeOfWork} minutos`}</td>
-                  <td>
-                    {formatDistanceToNow(task.startedDate, {
-                      addSuffix: true,
-                      locale: ptBR,
-                    })}
-                  </td>
-                  <td>
-                    {task.isInterrupted && (
-                      <StatusStyle statuscolor="red1">Interrompida</StatusStyle>
-                    )}
-                    {task.isConcluded && (
-                      <StatusStyle statuscolor="green1">Concluída</StatusStyle>
-                    )}
-                    {!task.isConcluded && !task.isInterrupted && (
-                      <StatusStyle statuscolor="yellow">
-                        Em andamento
-                      </StatusStyle>
-                    )}
-                  </td>
-                </tr>
-              )
-            })}
+            {cycles.length === 0 ? (
+              <tr>
+                <td className="isHistoryEmpty"></td>
+                <td className="isHistoryEmpty"></td>
+                <td className="isHistoryEmpty"></td>
+                <td className="isHistoryEmpty"></td>
+              </tr>
+            ) : (
+              cycles.map((task: CyclesProps) => {
+                return (
+                  <tr key={task.id}>
+                    <td>{task.task}</td>
+                    <td>{`${task.timeOfWork} minutos`}</td>
+                    <td>
+                      {formatDistanceToNow(task.startedDate, {
+                        addSuffix: true,
+                        locale: ptBR,
+                      })}
+                    </td>
+                    <td>
+                      {task.isInterrupted && (
+                        <StatusStyle statuscolor="red1">
+                          Interrompida
+                        </StatusStyle>
+                      )}
+                      {task.isConcluded && (
+                        <StatusStyle statuscolor="green1">
+                          Concluída
+                        </StatusStyle>
+                      )}
+                      {!task.isConcluded && !task.isInterrupted && (
+                        <StatusStyle statuscolor="yellow">
+                          Em andamento
+                        </StatusStyle>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })
+            )}
           </tbody>
         </table>
       </HistoryTableStyles>
