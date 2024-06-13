@@ -14,9 +14,10 @@ export const CounterStyles = styled.div`
   }
 
   .pointsOfCounter {
+    font-family: serif;
     width: 4rem;
     height: 12.375rem;
-    font-size: 10rem;
+    font-size: 14rem;
     color: ${(props) => props.theme.green2};
   }
 
@@ -30,7 +31,7 @@ export const CounterStyles = styled.div`
     }
 
     .pointsOfCounter {
-      font-size: 4rem;
+      font-size: 5rem;
       width: 2rem;
       height: 5rem;
     }
