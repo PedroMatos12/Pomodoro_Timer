@@ -25,7 +25,7 @@ export const HeaderStyles = styled.header`
     .scrollLink {
       color: ${(props) => props.theme.defaultColor};
       width: 3rem;
-      /* height: 3rem; */
+      line-height: 0;
       border-top: 3px solid transparent;
       border-bottom: 3px solid transparent;
       transition: 0.1s;

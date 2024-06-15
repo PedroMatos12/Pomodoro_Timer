@@ -12,7 +12,7 @@ export function Header() {
         <img
           src={logoImage}
           alt="Logo e botão para página home"
-          className="logo"
+          className="logo flexReset"
         />
       </Link>
       <nav className="navBar">
